@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const { LogError, LogSuccess } = require('../utils/Logger');
 const fetch = require('node-fetch');
+const Loader = require('../utils/spinner');
 
 class GithubClient {
 	constructor(token) {
@@ -16,6 +17,8 @@ class GithubClient {
 	}
 	repos = {
 		get: ({ owner, repo }) => {
+			const loader = new Loader('Fetching repo info');
+			loader.start();
 			const url = `https://api.github.com/repos/${owner}/${repo}`;
 			this.request(url)
 				.then(data => {
@@ -41,38 +44,53 @@ class GithubClient {
 							[]
 					};
 					const repoKeys = Object.keys(repoData);
+					loader.stop();
 					repoKeys.map(key => {
 						console.log(`${key}: ${repoData[key]}`);
 					});
 				})
 				.catch(err => {
-					LogError('Error fetching repo');
+					loader.stop();
+					if (err.message === 'Not Found')
+						LogError('fatal: repository not found');
+					else LogError('Error fetching repo');
 				});
 		},
 		delete: ({ owner, repo }) => {
+			const loader = new Loader('deleting repo');
+			loader.start();
 			const url = `https://api.github.com/repos/${owner}/${repo}`;
 			this.request(url, 'DELETE')
 				.then(data => {
-					console.log(data);
+					loader.stop();
+					LogSuccess('Repository deleted successfully');
 				})
 				.catch(err => {
+					loader.stop();
 					if (err.message === 'Forbidden')
 						LogError("fatal: don't have permission to delete repo");
+					else if (err.message === 'Not Found')
+						LogError('fatal: repository not found');
 					else LogError('Error deleting repo');
 				});
 		},
 		create: repo_details => {
+			const loader = new Loader('Creating repo');
+			loader.start();
 			const url = `https://api.github.com/user/repos`;
 			this.request(url, 'POST', repo_details)
 				.then(data => {
-					console.log(data);
+					loader.stop();
 					LogSuccess('Repository created successfully');
 				})
 				.catch(err => {
+					loader.stop();
 					LogError('Error creating repo');
 				});
 		},
 		list: username => {
+			const loader = new Loader('Fetching repo info');
+			loader.start();
 			const url = `  https://api.github.com/users/${username}/repos`;
 			this.request(url)
 				.then(data => {
@@ -84,6 +102,7 @@ class GithubClient {
 							isPrivate: repo.private
 						};
 					});
+					loader.stop();
 					repos.map(repo => {
 						const repoKeys = Object.keys(repo);
 						repoKeys.map(key => {
@@ -95,7 +114,22 @@ class GithubClient {
 					});
 				})
 				.catch(err => {
+					loader.stop();
 					LogError('Error fetching repos');
+				});
+		},
+		update: ({ owner, repo, updates }) => {
+			const loader = new Loader('Updating repo');
+			loader.start();
+			const url = `https://api.github.com/repos/${owner}/${repo}`;
+			this.request(url, 'PATCH', updates)
+				.then(data => {
+					loader.stop();
+					LogSuccess('Repository updated successfully');
+				})
+				.catch(err => {
+					loader.stop();
+					LogError('Error updating repo');
 				});
 		}
 	};
@@ -117,8 +151,17 @@ class GithubClient {
 						throw new Error(res.statusText);
 					}
 					try {
-						const data = await res.json();
-						resolve(data);
+						const contentType = res.headers.get('content-type');
+						if (
+							contentType &&
+							contentType.includes('application/json')
+						) {
+							const data = await res.json();
+							resolve(data);
+						} else {
+							// Handle cases where response body is empty or not JSON
+							resolve(null); // Resolve with null or handle appropriately
+						}
 					} catch (error) {
 						throw new Error(error);
 					}

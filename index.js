@@ -2,7 +2,12 @@
 
 const init = require('./utils/init');
 const cli = require('./utils/cli');
-const { deleteGithubRepoCmd, createGithubRepoCmd, getGithubUserRepoInfoCmd } = require('./cmd/repo');
+const {
+	deleteGithubRepoCmd,
+	createGithubRepoCmd,
+	getGithubUserRepoInfoCmd,
+	updateGithubRepoCmd
+} = require('./cmd/repo');
 const { removeGithubAuthTokenCmd, setGithubTokenCmd } = require('./cmd/token');
 const chalk = require('chalk');
 const input = cli.input;
@@ -25,13 +30,17 @@ const flags = cli.flags;
 			await removeGithubAuthTokenCmd();
 			break;
 		case input.includes('info'):
-			await getGithubUserRepoInfoCmd(flags);
+			getGithubUserRepoInfoCmd(flags);
 			break;
 		case input.includes('delete'):
 			await deleteGithubRepoCmd(flags);
 			break;
 		case input.includes('create'):
 			await createGithubRepoCmd(flags);
+			break;
+		case input.includes('update'):
+			console.log('updating repo...');
+			updateGithubRepoCmd(flags)
 			break;
 		default:
 			console.log(chalk.red('invalid command'));
