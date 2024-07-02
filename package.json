@@ -1,7 +1,7 @@
 {
 	"name": "repoguard",
-	"description": "streamlining gitHub management from command line",
-	"version": "1.0.0",
+	"description": "streamlining github management from command line",
+	"version": "1.0.1",
 	"bin": {
 		"repoguard": "index.js"
 	},
@@ -11,7 +11,12 @@
 	"keywords": [
 		"repoguard",
 		"cli",
-		"github"
+		"github",
+		"management",
+		"automation",
+		"tool",
+		"javascript",
+		"repository"
 	],
 	"pkg": {
 		"targets": [
