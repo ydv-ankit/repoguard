@@ -1,6 +1,4 @@
 const chalk = require('chalk');
-const { loadOra } = require('./ora-spinner');
-
 const LogError = text => {
 	console.log(chalk.red(text));
 };

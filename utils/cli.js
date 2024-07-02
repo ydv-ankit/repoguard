@@ -16,20 +16,35 @@ const flags = {
 		type: `string`,
 		alias: `u`,
 		desc: `username`
+	},
+	all: {
+		type: `boolean`,
+		alias: `a`,
+		desc: `get all repositories`
 	}
 };
 
 const commands = {
 	help: { desc: `print this help info` },
+	configure: { desc: `configure GitHub token` },
+	remove: { desc: `remove GitHub token` },
+	create: {
+		desc: `create a repository`
+	},
 	info: {
 		flags: {
 			r: 'repository name',
-			u: 'username'
+			u: 'username',
+			a: 'all repositories'
 		},
 		desc: `print info about repository`
 	},
-	configure: { desc: `configure GitHub token` },
-	remove: { desc: `remove GitHub token` }
+	delete: {
+		flags: {
+			r: 'repository'
+		},
+		desc: `delete a repository`
+	}
 };
 
 const helpText = meowHelp({

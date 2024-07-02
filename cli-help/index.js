@@ -76,7 +76,7 @@ module.exports = ({
 
 		tableFlags.push([
 			chalk`{yellow ${alias}--${flag}}`,
-			`${options.desc}}`
+			`${options.desc}`
 		]);
 	}
 

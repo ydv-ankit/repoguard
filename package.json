@@ -1,6 +1,6 @@
 {
 	"name": "repoguard",
-	"description": "cli to manage github access",
+	"description": "streamlining gitHub management from command line",
 	"version": "1.0.0",
 	"bin": {
 		"repoguard": "index.js"
@@ -13,6 +13,14 @@
 		"cli",
 		"github"
 	],
+	"pkg": {
+		"targets": [
+			"node18-linux-x64",
+			"node18-macos-x64",
+			"node18-win-x64"
+		],
+		"outputPath": "dist"
+	},
 	"scripts": {
 		"format": "prettier --write \"./**/*.{js,json}\""
 	},
@@ -23,7 +31,7 @@
 		"cli-table3": "^0.6.5",
 		"cli-welcome": "^2.2.3",
 		"meow": "^9.0.0",
-		"ora": "^8.0.1",
+		"node-fetch": "^2.7.0",
 		"prompts": "^2.4.2"
 	},
 	"devDependencies": {
