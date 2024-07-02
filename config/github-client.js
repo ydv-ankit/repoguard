@@ -33,7 +33,12 @@ class GithubClient {
 						watchers: data?.watchers,
 						visibility: data?.visibility,
 						'allow forking': data?.allow_forking,
-						pemissions: (data?.permissions && Object.keys(data.permissions).map(key => `${key}: ${data.permissions[key]}`)) || [],
+						pemissions:
+							(data?.permissions &&
+								Object.keys(data.permissions).map(
+									key => `${key}: ${data.permissions[key]}`
+								)) ||
+							[]
 					};
 					const repoKeys = Object.keys(repoData);
 					repoKeys.map(key => {
@@ -83,9 +88,11 @@ class GithubClient {
 						const repoKeys = Object.keys(repo);
 						repoKeys.map(key => {
 							console.log(`${key}: ${repo[key]}`);
-						});	
-						console.log(chalk.blue("====================================="));
-					})
+						});
+						console.log(
+							chalk.blue('=====================================')
+						);
+					});
 				})
 				.catch(err => {
 					LogError('Error fetching repos');

@@ -74,10 +74,7 @@ module.exports = ({
 		let options = flags[flag];
 		let alias = options.alias ? `-${options.alias}, ` : ``;
 
-		tableFlags.push([
-			chalk`{yellow ${alias}--${flag}}`,
-			`${options.desc}`
-		]);
+		tableFlags.push([chalk`{yellow ${alias}--${flag}}`, `${options.desc}`]);
 	}
 
 	help += tableFlags.toString();

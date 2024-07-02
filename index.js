@@ -2,7 +2,8 @@
 
 const init = require('./utils/init');
 const cli = require('./utils/cli');
-const { setGithubTokenCmd, getGithubUserRepoInfoCmd, deleteGithubRepoCmd, createGithubRepoCmd } = require('./cmd/cmd');
+const { deleteGithubRepoCmd, createGithubRepoCmd } = require('./cmd/repo');
+const { removeGithubAuthTokenCmd, setGithubTokenCmd } = require('./cmd/token');
 const chalk = require('chalk');
 const input = cli.input;
 const flags = cli.flags;
@@ -11,7 +12,7 @@ const flags = cli.flags;
 	// commands to be implemented
 	// set token
 	switch (true) {
-		case input.length === 0 && Object.keys(flags).length === 1:
+		case process.argv.length < 3:
 			init();
 			break;
 		case input.includes('help'):
@@ -33,6 +34,7 @@ const flags = cli.flags;
 			await createGithubRepoCmd(flags);
 			break;
 		default:
-			console.log(chalk.red('Invalid command'));
+			console.log(chalk.red('invalid command'));
+			cli.showHelp(1);
 	}
 })();
