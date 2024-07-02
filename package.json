@@ -1,0 +1,32 @@
+{
+	"name": "repoguard",
+	"description": "cli to manage github access",
+	"version": "1.0.0",
+	"bin": {
+		"repoguard": "index.js"
+	},
+	"author": {
+		"name": "Ankit Ydv"
+	},
+	"keywords": [
+		"repoguard",
+		"cli",
+		"github"
+	],
+	"scripts": {
+		"format": "prettier --write \"./**/*.{js,json}\""
+	},
+	"dependencies": {
+		"chalk": "^4.1.2",
+		"cli-handle-error": "^4.4.0",
+		"cli-handle-unhandled": "^1.1.1",
+		"cli-table3": "^0.6.5",
+		"cli-welcome": "^2.2.3",
+		"meow": "^9.0.0",
+		"ora": "^8.0.1",
+		"prompts": "^2.4.2"
+	},
+	"devDependencies": {
+		"prettier": "^3.3.2"
+	}
+}
