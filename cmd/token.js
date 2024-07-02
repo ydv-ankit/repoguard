@@ -1,20 +1,17 @@
+const prompts = require('prompts');
 const { LogError } = require('../utils/Logger');
 const { setGithubToken } = require('../utils/token');
 
 const setGithubTokenCmd = async () => {
-	const getToken = async () => {
-		const response = await prompts({
-			type: 'text',
-			name: 'token',
-			message: 'GitHub Auth Token: ',
-			validate: value =>
-				value !== null && value !== '' ? true : 'Please enter a token'
-		});
-		return response.token;
-	};
-	getToken()
-		.then(token => {
-			setGithubToken(token);
+	await prompts({
+		type: 'text',
+		name: 'token',
+		message: 'GitHub Auth Token: ',
+		validate: value =>
+			value !== null && value !== '' ? true : 'Please enter a token'
+	})
+		.then(data=> {
+			setGithubToken(data.token);
 		})
 		.catch(error => {
 			LogError('Error setting GitHub Token');

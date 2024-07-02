@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { tokenFilepath, tokenFilename } = require('./constants');
-const { LogError } = require('./Logger');
+const { LogError, LogSuccess } = require('./Logger');
 
 const getGithubToken = () => {
 	try {
@@ -22,6 +22,7 @@ const getGithubToken = () => {
 const setGithubToken = token => {
 	try {
 		fs.writeFileSync(`${tokenFilepath}/${tokenFilename}`, token);
+		LogSuccess('Token added successfully\nrun `repoguard help` to view available commands');
 		return true;
 	} catch (err) {
 		throw new Error('failed to add token');
