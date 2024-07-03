@@ -4,7 +4,7 @@ const { setGithubToken } = require('../utils/token');
 
 const setGithubTokenCmd = async () => {
 	await prompts({
-		type: 'text',
+		type: 'password',
 		name: 'token',
 		message: 'GitHub Auth Token: ',
 		validate: value =>
