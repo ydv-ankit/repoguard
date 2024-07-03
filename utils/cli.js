@@ -44,6 +44,13 @@ const commands = {
 			r: 'repository'
 		},
 		desc: `delete a repository`
+	},
+	update:{
+		flags: {
+			r: 'repository',
+			u: 'username'
+		},
+		desc: `update a repository`
 	}
 };
 
