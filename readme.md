@@ -3,7 +3,7 @@
 RepoGuard is a powerful command-line tool designed to streamline the management of GitHub repositories and using github tokens
 
 ### Available commands:
-
+***Make sure to add github token with proper permissions***
 -   `repoguard configure` - configure the tool & add github token
 -   `repoguard remove` - remove github token
 -   `repoguard create` - create a new repository
@@ -11,6 +11,9 @@ RepoGuard is a powerful command-line tool designed to streamline the management 
 -   `repoguard info -a -u <username>` - list all public repositories of user
 -   `repoguard info -r <repo-name> -u <username>` - get information about a repository
 -   `repoguard update -r <repo-name> -u <username>` - update a repository
+-   `repoguard colab -r <repo-name> -u <username>` - add collaborator(s) to a repository
+-   `repoguard colab -r <repo-name> -u <username> -i --get` - get all invited users of repository
+-   `repoguard colab -r <repo-name> -u <username> -i --rm <invite-id>` - remove invitation of repository
 
 ### Binary Releases available for:
 
