@@ -134,6 +134,152 @@ class GithubClient {
 		}
 	};
 
+	collaborators = {
+		getAll: ({ owner, repo }) => {
+			const loader = new Loader('Fetching collaborators');
+			loader.start();
+			const url = `https://api.github.com/repos/${owner}/${repo}/collaborators`;
+			this.request(url)
+				.then(data => {
+					const collaborators = data.map(collaborator => {
+						return {
+							'collaborator id': collaborator.id,
+							collaborator: collaborator.login,
+							'collaborator url': collaborator.html_url,
+							'collaborator type': collaborator.type,
+							'collaborator site admin': collaborator.site_admin,
+							permissions:
+								(collaborator?.permissions &&
+									Object.keys(collaborator.permissions).map(
+										key =>
+											`(${key}): ${collaborator.permissions[key]}`
+									)) ||
+								[]
+						};
+					});
+					loader.stop();
+					collaborators.map(collaborator => {
+						const collaboratorKeys = Object.keys(collaborator);
+						const keyCol = chalk.rgb(25, 225, 20);
+						const valCol = chalk.rgb(225, 225, 225);
+						collaboratorKeys.map(key => {
+							console.log(
+								`${keyCol(key)}: ${valCol(collaborator[key])}`
+							);
+						});
+						console.log(
+							chalk.blue('=====================================')
+						);
+					});
+				})
+				.catch(err => {
+					loader.stop();
+					LogError('Error fetching collaborators');
+				});
+		},
+		getUser: ({ owner, repo, username }) => {
+			const loader = new Loader('Fetching collaborator');
+			loader.start();
+			const url = `https://api.github.com/repos/${owner}/${repo}/collaborators/${username}`;
+			this.request(url)
+				.then(data => {
+					loader.stop();
+					LogSuccess('Collaborator found');
+				})
+				.catch(err => {
+					loader.stop();
+					if (err.message === 'Not Found')
+						LogError('fatal: collaborator not found');
+					else LogError('Error fetching collaborator');
+				});
+		},
+		addUsers: ({ owner, repo, users }) => {
+			let isError = false;
+			const loader = new Loader('Adding collaborators');
+			loader.start();
+			users.forEach(user => {
+				const url = `https://api.github.com/repos/${owner}/${repo}/collaborators/${user}`;
+				this.request(url, 'PUT').catch(err => {
+					loader.stop();
+					isError = true;
+					LogError('Error adding collaborator');
+				});
+			});
+			if (!isError) {
+				loader.stop();
+				LogSuccess(
+					`${users.length > 1 ? 'collaborators' : 'collaborator'} invited successfully`
+				);
+			}
+		},
+		removeUsers: ({ owner, repo, users }) => {
+			let isError = false;
+			const loader = new Loader('Removing collaborators');
+			loader.start();
+			users.forEach(user => {
+				const url = `https://api.github.com/repos/${owner}/${repo}/collaborators/${user}`;
+				this.request(url, 'DELETE').catch(err => {
+					loader.stop();
+					isError = true;
+					LogError(`Error removing collaborator ${user}`);
+				});
+			});
+			if (!isError) {
+				loader.stop();
+				LogSuccess(
+					`${users.length > 1 ? 'collaborators' : 'collaborator'} removed successfully`
+				);
+			}
+		},
+		getInvites: ({ owner, repo }) => {
+			const loader = new Loader('Fetching invited users');
+			loader.start();
+			const url = `https://api.github.com/repos/${owner}/${repo}/invitations`;
+			this.request(url)
+				.then(data => {
+					const invites = data.map(invite => {
+						return {
+							'invite id': invite.id,
+							invitee: invite.invitee.login,
+							inviter: invite.inviter.login,
+							permissions: invite.permissions,
+							'invite url': invite.html_url,
+							'invite created at': invite.created_at
+						};
+					});
+					loader.stop();
+					invites.map(invite => {
+						const inviteKeys = Object.keys(invite);
+						inviteKeys.map(key => {
+							console.log(`${key}: ${invite[key]}`);
+						});
+						console.log(
+							chalk.blue('=====================================')
+						);
+					});
+				})
+				.catch(err => {
+					loader.stop();
+					console.log(err);
+					LogError('Error fetching invites');
+				});
+		},
+		removeInvitation: ({ owner, repo, invite_id }) => {
+			const loader = new Loader('Removing invitation');
+			loader.start();
+			const url = `https://api.github.com/repos/${owner}/${repo}/invitations/${invite_id}`;
+			this.request(url, 'DELETE')
+				.then(data => {
+					loader.stop();
+					LogSuccess('invitation removed successfully');
+				})
+				.catch(err => {
+					loader.stop();
+					LogError('error: check if invite id is correct');
+				});
+		}
+	};
+
 	request(url, method = 'GET', data = null, headers = null) {
 		const constructHeaders =
 			(headers && Object.assign(this.headers, headers)) || this.headers;

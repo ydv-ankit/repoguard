@@ -21,7 +21,38 @@ const flags = {
 		type: `boolean`,
 		alias: `a`,
 		desc: `get all repositories`
-	}
+	},
+	owner: {
+		type: `string`,
+		alias: `o`,
+		desc: `owner(user) of repository`
+	},
+	get: {
+		type: `boolean`,
+		desc: `get collaborator info`
+	},
+	add: {
+		type: `boolean`,
+		desc: `add repository collaborator(s)`
+	},
+	users: {
+		type: `string`,
+		desc: `users to add`,
+		isMultiple: true
+	},
+	remove: {
+		type: `boolean`,
+		desc: `remove collaborator(s)`
+	},
+	invite: {
+		type: `boolean`,
+		alias: `i`,
+		desc: `invite collaborator(s)`
+	},
+	rm: {
+		type: `string`,
+		desc: `remove collaborator invitation`
+	},
 };
 
 const commands = {
@@ -45,12 +76,27 @@ const commands = {
 		},
 		desc: `delete a repository`
 	},
-	update:{
+	update: {
 		flags: {
 			r: 'repository',
 			u: 'username'
 		},
 		desc: `update a repository`
+	},
+	colab: {
+		flags: {
+			r: 'repository',
+			u: 'username',
+			o: 'owner',
+			a: 'all collaborators',
+			i: 'get invited collaborators',
+			rm: 'remove collaborator invitation',
+			get: 'get collaborators',
+			update: 'update collaborators',
+			users: 'users to add/remove from collaborators',
+			remove: 'remove collaborators'
+		},
+		desc: `manage repository collaborators`
 	}
 };
 

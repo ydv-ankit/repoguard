@@ -1,7 +1,7 @@
 {
 	"name": "repoguard",
-	"description": "streamlining github management from command line",
-	"version": "1.1.0",
+	"description": "streamline github management from command line",
+	"version": "1.2.0",
 	"bin": {
 		"repoguard": "index.js"
 	},

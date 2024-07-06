@@ -54,7 +54,7 @@ module.exports = ({
 			for (const flag of flagKeys) {
 				let flagOptions = options.flags[flag];
 				let alias = flagOptions.alias ? `-${flagOptions.alias}, ` : ``;
-				commandFlags += `\n${chalk`{cyanBright ${alias}-${flag}}`} ${dim(`${flagOptions}`)}`;
+				commandFlags += `\n${chalk`{cyanBright ${flag.length > 1 ? '--' + flag : '-' + flag}}`} ${dim(`${flagOptions}`)}`;
 			}
 		}
 

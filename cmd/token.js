@@ -1,6 +1,6 @@
 const prompts = require('prompts');
 const { LogError } = require('../utils/Logger');
-const { setGithubToken } = require('../utils/token');
+const { setGithubToken, removeGithubToken } = require('../utils/token');
 
 const setGithubTokenCmd = async () => {
 	await prompts({
@@ -19,7 +19,7 @@ const setGithubTokenCmd = async () => {
 };
 
 const removeGithubAuthTokenCmd = async () => {
-	setGithubToken('');
+	removeGithubToken();
 };
 
 module.exports = {

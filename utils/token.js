@@ -32,9 +32,10 @@ const setGithubToken = token => {
 const removeGithubToken = () => {
 	try {
 		fs.unlinkSync(`${tokenFilepath}/${tokenFilename}`);
+		LogSuccess("Token removed")
 		return true;
 	} catch (err) {
-		throw new Error('failed to remove token');
+		LogError('failed to remove token');
 	}
 };
 

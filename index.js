@@ -10,6 +10,7 @@ const {
 } = require('./cmd/repo');
 const { removeGithubAuthTokenCmd, setGithubTokenCmd } = require('./cmd/token');
 const chalk = require('chalk');
+const { githubRepoCollaboratorsCmd } = require('./cmd/colab');
 const input = cli.input;
 const flags = cli.flags;
 
@@ -39,8 +40,10 @@ const flags = cli.flags;
 			await createGithubRepoCmd(flags);
 			break;
 		case input.includes('update'):
-			console.log('updating repo...');
 			updateGithubRepoCmd(flags)
+			break;
+		case input.includes('colab'):
+			githubRepoCollaboratorsCmd(flags);
 			break;
 		default:
 			console.log(chalk.red('invalid command'));
