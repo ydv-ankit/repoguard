@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { LogError, LogSuccess } = require('../utils/Logger');
+const { LogError, LogSuccess, LogInfo } = require('../utils/Logger');
 const fetch = require('node-fetch');
 const Loader = require('../utils/spinner');
 
@@ -82,6 +82,8 @@ class GithubClient {
 				.then(data => {
 					loader.stop();
 					LogSuccess('Repository created successfully');
+					LogInfo('SSH URL: ' + data.ssh_url);
+					LogInfo('HTTP URL: ' + data.clone_url);
 				})
 				.catch(err => {
 					loader.stop();
