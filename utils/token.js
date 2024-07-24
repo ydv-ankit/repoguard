@@ -21,8 +21,18 @@ const getGithubToken = () => {
 
 const setGithubToken = token => {
 	try {
-		fs.writeFileSync(`${tokenFilepath}/${tokenFilename}`, token);
-		LogSuccess('Token added successfully\nrun `repoguard help` to view available commands');
+		if (!fs.existsSync(tokenFilepath)) {
+			try {
+				fs.mkdirSync(tokenFilepath, { recursive: true });
+			} catch (error) {
+				LogError('failed to create token directory');
+				return false;
+			}
+		}
+		fs.writeFileSync(tokenFilepath + tokenFilename, token);
+		LogSuccess(
+			'Token added successfully\nrun `repoguard help` to view available commands'
+		);
 		return true;
 	} catch (err) {
 		throw new Error('failed to add token');
@@ -32,7 +42,7 @@ const setGithubToken = token => {
 const removeGithubToken = () => {
 	try {
 		fs.unlinkSync(`${tokenFilepath}/${tokenFilename}`);
-		LogSuccess("Token removed")
+		LogSuccess('Token removed');
 		return true;
 	} catch (err) {
 		LogError('failed to remove token');
