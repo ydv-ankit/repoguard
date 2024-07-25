@@ -7,7 +7,7 @@ RepoGuard is a powerful command-line tool designed to streamline the management 
 -   `repoguard configure` - configure the tool & add github token
 -   `repoguard remove` - remove github token
 -   `repoguard create` - create a new repository
--   `repoguard delete -r <repo-name>` - delete a repository
+-   `repoguard delete -r <repo-name> -u <username>` - delete a repository
 -   `repoguard info -a -u <username>` - list all public repositories of user
 -   `repoguard info -r <repo-name> -u <username>` - get information about a repository
 -   `repoguard update -r <repo-name> -u <username>` - update a repository
