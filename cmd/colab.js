@@ -2,13 +2,13 @@ const { createGithubClient } = require('../config/githubClientInstance');
 const { LogError } = require('../utils/Logger');
 
 const getUsers = args => {
-	let users = Array();
+	let users = [];
 	let isUser = false;
 	for (let index = 0; index < args.length; index++) {
 		if (args[index] === '--users') {
 			isUser = true;
 			continue;
-		} else if (args[index].includes('-')) {
+		} else if (args[index].startsWith('--')) {
 			isUser = false;
 		} else if (isUser) {
 			users.push(args[index]);
@@ -63,22 +63,22 @@ const githubRepoCollaboratorsCmd = async flags => {
 			return;
 		}
 	} else if (flags.invite) {
-        if (flags.get) {
-            client.collaborators.getInvites({
-                owner: flags.owner,
+		if (flags.get) {
+			client.collaborators.getInvites({
+				owner: flags.owner,
 				repo: flags.repo
 			});
 		} else if (flags.rm) {
 			client.collaborators.removeInvitation({
-                owner: flags.owner,
+				owner: flags.owner,
 				repo: flags.repo,
-                invite_id: flags.rm
+				invite_id: flags.rm
 			});
-		}else{
-            LogError('get flag or rm flag with invite id is required');
-        }
+		} else {
+			LogError('get flag or rm flag with invite id is required');
+		}
 	} else {
-        LogError('not get flag');
+		LogError('not get flag');
 	}
 };
 

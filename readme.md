@@ -14,6 +14,7 @@ RepoGuard is a powerful command-line tool designed to streamline the management 
 -   `repoguard colab -r <repo-name> -u <username>` - add collaborator(s) to a repository
 -   `repoguard colab -r <repo-name> -u <username> -i --get` - get all invited users of repository
 -   `repoguard colab -r <repo-name> -u <username> -i --rm <invite-id>` - remove invitation of repository
+-   `repoguard colab --remove --r <repo-name> --o <owner-username> --users <username>` - remove collaborator to a repository
 
 ### Binary Releases available for:
 
